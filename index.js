@@ -2,7 +2,11 @@ const express = require("express");
 const moment = require("moment");
 const app = express();
 const computeTime = require("./calc_date.js");
+const createCalendar = require("./create_calendar.js");
 const port = process.env.PORT || 3000;
+
+const maxBefore = process.env.MAX_BEFORE ? parseInt(process.env.MAX_BEFORE) : 20;
+const maxAfter = process.env.AFTER ? parseInt(process.env.AFTER) : 20;
 
 let studyweek = "";
 let studyweekNum = "";
@@ -29,6 +33,26 @@ app.get("/", (req, res) => {
 app.get("/data", (req, res) => {
 	res.send(computeTime());
 });
+
+app.get("/cal.ics", (req, res) => {
+	const before = req.query.before ? parseInt(req.query.before) : 8;
+	if (isNaN(before) || before < 0 || before > maxBefore) {
+		res.status(400).end(`Invalid before, must be an integer between 0 and ${maxBefore}`);
+		return;
+	}
+
+	let after = req.query.after ? parseInt(req.query.after) : 8;
+	if (isNaN(after) || after < 0 || after > maxAfter) {
+		res.status(400).end(`Invalid after, must be an integer between 0 and ${maxAfter}`);
+		return;
+	}
+
+	const now = moment();
+	const calendar = createCalendar(now, before, after);
+
+	res.setHeader("Content-Type", "text/calendar")
+		.end(calendar.serialize());
+})
 
 app.get("/favicon.ico", (req, res) => {
 	const studyweek = computeTime();
