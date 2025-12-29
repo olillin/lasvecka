@@ -25,7 +25,7 @@ The events are full-day events on every Monday with the study week as the summar
 
 The calendar covers a time period which defaults to 8 weeks before and after the current date. This period can be customized by using the `before` and `after` query parameters which can be between 0 and 20. The maximum value for before and after can be overriden by the environment variables `MAX_BEFORE` and `MAX_AFTER` respectively.
 
-![Google Calendar with the study week as an event on every Monday of December](./docs/calendar.png)
+![Google Calendar with LV 5, LV 6 and LV 7 shown as events on Mondays in December](./docs/calendar.png)
 
 ## Are the weeks not updating correctly?
 
