@@ -35,7 +35,10 @@ function createCalendar(now, before, after) {
 	const monday = startOfWeek(now);
 	const weeks = computeWeeks(monday, before, after);
 
-	const calendar = new Calendar("-//gud//lasvecka");
+	const calendar = new Calendar("-//gud//lasvecka")
+    .setCalendarName("Läsvecka.nu")
+    .setCalendarDescription("Kommande läsveckor från läsvecka.nu");
+
 	const dtstamp = new Date();
 	const events = weeksToEvents(weeks, dtstamp);
     calendar.addComponents(events);
